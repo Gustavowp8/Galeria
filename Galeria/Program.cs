@@ -1,11 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Galeria.Data;
+using SixLabors.ImageSharp.Web.DependencyInjection;
+using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp.Web.Caching;
+
 var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration.GetConnectionString("GaleriaContext");
 builder.Services.AddDbContext<GaleriaContext>(options =>
     options.UseMySql(connection,
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql")));
+
+builder.Services.AddImageSharp(
+    options =>
+    {
+        options.BrowserMaxAge = TimeSpan.FromDays(7);
+        options.CacheMaxAge = TimeSpan.FromDays(365);
+        options.CacheHashLength = 8;
+    }).Configure<PhysicalFileSystemCacheOptions>(options =>
+    {
+        options.CacheFolder = "img/cache";
+    });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +37,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseImageSharp();
 
 app.UseRouting();
 
