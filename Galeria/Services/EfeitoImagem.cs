@@ -1,6 +1,9 @@
 ﻿namespace Galeria.Services
 {
-    public class EfeitoImagem
+    public enum EfeitoImagem
     {
+        EscalcaDeCinza,
+        Negativo,
+        Desfoque
     }
 }

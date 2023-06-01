@@ -4,6 +4,7 @@ using Galeria.Data;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp.Web.Caching;
+using Galeria.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration.GetConnectionString("GaleriaContext");
@@ -21,6 +22,8 @@ builder.Services.AddImageSharp(
     {
         options.CacheFolder = "img/cache";
     });
+
+builder.Services.AddSingleton<IProcessadorImagem, ProcessadorImagem>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

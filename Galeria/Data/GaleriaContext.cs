@@ -15,5 +15,9 @@ namespace Galeria.Data
         }
 
         public DbSet<Galeria.Models.Clientes> Clientes { get; set; } = default!;
+
+        public DbSet<Galeria.Models.GaleriaImg> GaleriaImgs { get; set; } = default!;
+
+        public DbSet<Galeria.Models.Imagem> Imagens { get; set; } = default!;
     }
 }
